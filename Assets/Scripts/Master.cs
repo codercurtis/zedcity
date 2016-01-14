@@ -8,6 +8,8 @@ public class Master : MonoBehaviour {
 	public GameObject[] bTypes;
 	
 	public GameObject rootBuildingObj;
+	public enum CameraMode {freelook, frozen};
+	public CameraMode cameraState;
 
 
 	//http://wiki.unity3d.com/index.php/AManagerClass

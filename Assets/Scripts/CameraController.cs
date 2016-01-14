@@ -15,14 +15,38 @@ public class CameraController : MonoBehaviour {
 	public Vector2 targetDirection;
 	
 	public float movSpeed;
-	
+
+		 
 	void Start(){
 		targetDirection = transform.localRotation.eulerAngles;
 	}
 	
 	void Update () {
 	
+		if(Input.GetButton("Fire3")){
+			Master.instance.cameraState = Master.CameraMode.frozen;
+		}else{
+			Master.instance.cameraState = Master.CameraMode.freelook;
+		}
+		
+		switch (Master.instance.cameraState){ 
+			case Master.CameraMode.freelook:
+				Cursor.visible = false;
+				Cursor.lockState = CursorLockMode.Locked;
+				Move();
+			break;
+			
+			case Master.CameraMode.frozen:
+				Cursor.visible = true; 
+				Cursor.lockState = CursorLockMode.None;
+			break;
+		}
+
+	}
 	
+	void Move(){
+	
+		//mostly http://forum.unity3d.com/threads/combined-camera-movement-and-mouse-look-script.283290/
 		//Rotation
 		var targetOrientation = Quaternion.Euler(targetDirection);
 		
@@ -53,10 +77,8 @@ public class CameraController : MonoBehaviour {
 		
 		//Movement
 		
-			transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * movSpeed;
-			transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * movSpeed;
-		
+		transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * movSpeed;
+		transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * movSpeed;
+	
 	}
-	
-	
 }
