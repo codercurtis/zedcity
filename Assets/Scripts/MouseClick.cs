@@ -15,7 +15,9 @@ public class MouseClick : MonoBehaviour {
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if(Physics.Raycast(ray, out hit)){
-					Debug.Log(hit.collider.gameObject.name);
+					if(hit.collider.gameObject.tag == "Building"){
+						//open a menu or something
+					}
 				}
 			}
 		}

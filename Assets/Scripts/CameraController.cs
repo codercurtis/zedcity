@@ -76,7 +76,6 @@ public class CameraController : MonoBehaviour {
 		transform.localRotation *= yRotation;
 		
 		//Movement
-		
 		transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * movSpeed;
 		transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * movSpeed;
 	

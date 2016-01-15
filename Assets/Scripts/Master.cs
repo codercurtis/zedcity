@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.Reflection;
 
 public class Master : MonoBehaviour {
 
@@ -10,6 +12,7 @@ public class Master : MonoBehaviour {
 	public GameObject rootBuildingObj;
 	public enum CameraMode {freelook, frozen};
 	public CameraMode cameraState;
+	public GameObject hq;
 
 
 	//http://wiki.unity3d.com/index.php/AManagerClass
@@ -40,7 +43,14 @@ public class Master : MonoBehaviour {
 	void Start(){
 		for(var i=0;i<gridSize;i++){
 			for(var j=0;j<gridSize;j++){
-				GameObject.Instantiate(rootBuildingObj,new Vector3((i+1)*25,0,(j+1)*25),Quaternion.identity);
+				//first building setup
+				if(i==0 && j==0){
+					hq = GameObject.Instantiate(rootBuildingObj,new Vector3((i+1)*25,0,(j+1)*25),Quaternion.identity) as GameObject;
+					hq.GetComponent<BuildingScript>().mode = BuildingScript.BuildingMode.hq;
+				}else{
+					var build = GameObject.Instantiate(rootBuildingObj,new Vector3((i+1)*25,0,(j+1)*25),Quaternion.identity) as GameObject;
+					build.GetComponent<BuildingScript>().mode = BuildingScript.RandomMode();
+				}
 			}
 		}
 	}
