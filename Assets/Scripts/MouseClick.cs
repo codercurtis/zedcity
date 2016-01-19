@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MouseClick : MonoBehaviour {
 
+	GameObject selectedObject;
 	// Use this for initialization
 	void Start () {
 	
@@ -10,8 +11,9 @@ public class MouseClick : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//click
 		if(Input.GetMouseButtonDown(0)){
-			if(Master.instance.cameraState  == Master.CameraMode.frozen){
+			if(Master.instance.cameraState == Master.CameraMode.frozen){
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if(Physics.Raycast(ray, out hit)){

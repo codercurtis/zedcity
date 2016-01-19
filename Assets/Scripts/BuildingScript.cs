@@ -54,11 +54,17 @@ public class BuildingScript : MonoBehaviour {
 		this.mode = mode;
 		
 		//Create label objects
-		var temp = new GameObject();
-		labelHolder = GameObject.Instantiate(temp,new Vector3(transform.position.x,building.transform.localScale.y,transform.position.z),Camera.main.transform.rotation) as GameObject;
+		labelHolder = new GameObject();
+		labelHolder.transform.position = new Vector3(transform.position.x,building.transform.localScale.y,transform.position.z);
+		labelHolder.AddComponent<FaceCamera>();
+		labelHolder.transform.parent = building.transform;
+		labelHolder.name = "label";
+		
 		TextMesh mesh = labelHolder.AddComponent<TextMesh>();
 		mesh.anchor = TextAnchor.MiddleCenter;
 		mesh.text = "Hello World";
+		mesh.characterSize = 1;
+		labelHolder.SetActive(false);
 	} 
 	
 	GameObject RandomBuilding(){
@@ -67,5 +73,15 @@ public class BuildingScript : MonoBehaviour {
 	
 	public static BuildingMode RandomMode(){
 		return (BuildingMode)(UnityEngine.Random.Range(1,Enum.GetNames(typeof(BuildingMode)).Length));
+	}
+	
+	public void  OnMouseEnter(){
+		if(Master.instance.cameraState == Master.CameraMode.frozen){
+			labelHolder.SetActive(true);
+		}
+	}
+	
+	public void OnMouseExit(){
+		labelHolder.SetActive(false);
 	}
 }
