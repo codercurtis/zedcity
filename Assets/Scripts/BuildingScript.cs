@@ -9,7 +9,7 @@ public class BuildingScript : MonoBehaviour {
 	public GameObject building;
 	public enum BuildingMode {hq = 0,zombie = 1,neutral = 2};
 	public BuildingMode _mode;
-	public GameObject labelHolder;
+	public GameObject label;
 
 	
 	public BuildingMode mode
@@ -42,7 +42,7 @@ public class BuildingScript : MonoBehaviour {
 	}
 	
 	void Start () { 
-	
+		label = GameObject.Find("Label");
 		GameObject buildingType = RandomBuilding();
 		building = GameObject.Instantiate(buildingType,new Vector3(transform.position.x,buildingType.transform.localScale.y/2f,transform.position.z),Quaternion.identity) as GameObject;
 		building.transform.parent = transform;
@@ -53,18 +53,6 @@ public class BuildingScript : MonoBehaviour {
 		//The building may not have been ready on initial assignment of mode
 		this.mode = mode;
 		
-		//Create label objects
-		labelHolder = new GameObject();
-		labelHolder.transform.position = new Vector3(transform.position.x,building.transform.localScale.y,transform.position.z);
-		labelHolder.AddComponent<FaceCamera>();
-		labelHolder.transform.parent = building.transform;
-		labelHolder.name = "label";
-		
-		TextMesh mesh = labelHolder.AddComponent<TextMesh>();
-		mesh.anchor = TextAnchor.MiddleCenter;
-		mesh.text = "Hello World";
-		mesh.characterSize = 1;
-		labelHolder.SetActive(false);
 	} 
 	
 	GameObject RandomBuilding(){
@@ -77,11 +65,13 @@ public class BuildingScript : MonoBehaviour {
 	
 	public void  OnMouseEnter(){
 		if(Master.instance.cameraState == Master.CameraMode.frozen){
-			labelHolder.SetActive(true);
+			var labelScript = label.GetComponent<ObjectLabel>();
+			labelScript.target = gameObject.transform;
+			label.GetComponent<GUIText>().text="hello world";
 		}
 	}
 	
 	public void OnMouseExit(){
-		labelHolder.SetActive(false);
+		
 	}
 }
