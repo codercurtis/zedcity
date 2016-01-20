@@ -10,6 +10,7 @@ public class BuildingScript : MonoBehaviour {
 	public enum BuildingMode {hq = 0,zombie = 1,neutral = 2};
 	public BuildingMode _mode;
 	public GameObject label;
+	public Stats _stats = new Stats();
 
 	
 	public BuildingMode mode
@@ -50,6 +51,7 @@ public class BuildingScript : MonoBehaviour {
 		bc.size = building.transform.localScale;
 		bc.center = new Vector3(0,buildingType.transform.localScale.y/2f,0);
 		
+		
 		//The building may not have been ready on initial assignment of mode
 		this.mode = mode;
 		
@@ -63,11 +65,15 @@ public class BuildingScript : MonoBehaviour {
 		return (BuildingMode)(UnityEngine.Random.Range(1,Enum.GetNames(typeof(BuildingMode)).Length));
 	}
 	
+	private string RandomName(){
+		return "";
+	}
+	
 	public void  OnMouseEnter(){
 		if(Master.instance.cameraState == Master.CameraMode.frozen){
 			var labelScript = label.GetComponent<ObjectLabel>();
 			labelScript.target = gameObject.transform;
-			label.GetComponent<GUIText>().text="hello world";
+			label.GetComponent<GUIText>().text = _stats.name;
 		}
 	}
 	

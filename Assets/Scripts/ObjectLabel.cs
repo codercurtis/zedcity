@@ -17,7 +17,7 @@ public class ObjectLabel : MonoBehaviour {
 			cam = Camera.main;
 		}else{
 			cam = GameObject.Find("Menu Camera").GetComponent<Camera>();
-			camTransform = cam.transform;
+			//camTransform = cam.transform;
 			transform.localScale *=.005f;
 		}
 	}
