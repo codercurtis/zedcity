@@ -23,25 +23,34 @@ public class CameraController : MonoBehaviour {
 	
 	void Update () {
 	
-		if(Input.GetButton("Fire3")){
-			Master.instance.cameraState = Master.CameraMode.frozen;
-		}else{
-			Master.instance.cameraState = Master.CameraMode.freelook;
-		}
+		switch (Master.instance.gameState){
 		
-		switch (Master.instance.cameraState){ 
-			case Master.CameraMode.freelook:
-				Cursor.visible = false;
-				Cursor.lockState = CursorLockMode.Locked;
-				Move();
+			case Master.GameState.game:
+				if(Input.GetButton("Fire3")){
+					Master.instance.cameraState = Master.CameraMode.frozen;
+				}else{
+					Master.instance.cameraState = Master.CameraMode.freelook;
+				}
+				
+				switch (Master.instance.cameraState){ 
+					case Master.CameraMode.freelook:
+						Cursor.visible = false;
+						Cursor.lockState = CursorLockMode.Locked;
+						Move();
+					break;
+					
+					case Master.CameraMode.frozen:
+						Cursor.visible = true; 
+						Cursor.lockState = CursorLockMode.None;
+					break;
+				}
 			break;
 			
-			case Master.CameraMode.frozen:
+			case Master.GameState.menu:
 				Cursor.visible = true; 
 				Cursor.lockState = CursorLockMode.None;
 			break;
 		}
-
 	}
 	
 	void Move(){

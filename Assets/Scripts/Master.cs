@@ -10,7 +10,10 @@ public class Master : MonoBehaviour {
 	public GameObject[] bTypes;
 	
 	public GameObject rootBuildingObj;
+	public GameObject buttonObj;
 	public enum CameraMode {freelook, frozen};
+	public enum GameState {game,menu};
+	private GameState _gameState;
 	public CameraMode cameraState;
 	public GameObject hq;
 	
@@ -46,6 +49,7 @@ public class Master : MonoBehaviour {
 	}
 	
 	void Start(){
+		//create buildings
 		for(var i=0;i<gridSize;i++){
 			for(var j=0;j<gridSize;j++){
 				//first building setup
@@ -68,5 +72,46 @@ public class Master : MonoBehaviour {
 		name += " ";
 		name += buildingNameSuffixes[UnityEngine.Random.Range(0,buildingNameSuffixes.Length)];
 		return name;
+	}
+	
+	
+	public GameState gameState
+	{
+		get {return _gameState;}
+		set {
+			switch(value){
+				case GameState.game:
+					DeleteMenus();
+					GameObject.Find("Menu Camera").GetComponent<Camera>().depth = -2;
+					_gameState = value;
+				break;
+				
+				case GameState.menu:
+					GameObject.Find("Menu Camera").GetComponent<Camera>().depth = 1;
+					CreateMenu();
+					cameraState = CameraMode.frozen;
+					_gameState = value;
+				break;
+				default:
+					_gameState = value;
+				break;
+			}
+		}
+	}
+	
+	public void CreateMenu(){
+		var menuCam = GameObject.Find("Menu Camera");
+		var menu = GameObject.Instantiate(buttonObj,
+			menuCam.transform.position + menuCam.transform.forward*3,
+			Quaternion.Euler(270, 0, 0)
+		) as GameObject;
+		menu.tag = "UI";
+	}
+	
+	public void DeleteMenus(){
+		var menus = GameObject.FindGameObjectsWithTag("UI");
+		foreach(GameObject menu in menus){
+			Destroy(menu);
+		}
 	}
 }
